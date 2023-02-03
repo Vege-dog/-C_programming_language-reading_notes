@@ -731,50 +731,386 @@
 
 //1.9 字符数组
 
-#define MAXLINE 1000 //允许输入的最大行
+//#define MAXLINE 1000 //允许输入的一行的最大长度
+//
+//int getline(char line[], int maxline);
+//void copy(char to[], char from[]);
+//
+////打印最大的输入行
+//main() {
+//	int len;//当前行长度
+//	int max;//目前为止的最长行长度
+//	char line[MAXLINE];//当前行内容
+//	char longest[MAXLINE];//目前为止的最长行内容
+//
+//	max = 0;
+//	while ((len = getline(line, MAXLINE)) > 0) {//当输入行长度大于0时则执行该循环（空行长度为1，同样执行）
+//		if (len > max) {//如果当前行长度超过已经输入过的行，则更新最长长度并将longest中记录的内容更新
+//			max = len;
+//			copy(longest, line);
+//		}
+//	}
+//	if (max > 0) {//如果存在，输出最长行内容（如果max=0，则说明没有输入任何行，因此不进行输出）
+//		printf("%s", longest);
+//	}
+//	return 0;
+//}
+//
+//int getline(char s[], int lim) {//返回该行长度，并记录该行内容
+//	int c, i;
+//
+//	for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {//记录正常的行（未超长度，无结束符，无换行符；如出现三种情况之一则判断该行结束，进行下一步）
+//		s[i] = c;
+//	}
+//	if (c == '\n') {//记录换行符（如该行为空行，即仅有换行符，则数组中仍记录该行内容（即换行符）并记录长度为1
+//		s[i] = c;
+//		++i;
+//	}
+//	s[i] = '\0';//在数组中标记结束
+//	return i;//返回长度
+//}
+//
+//void copy(char to[], char from[]) {//将from[]数组中的内容复制到to[]数组中
+//	int i;
+//
+//	i = 0;
+//	while ((to[i] = from[i]) != '\0') {
+//		++i;
+//	}
+//}
 
-int getline(char line[], int maxline);
-void copy(char to[], char from[]);
 
-//打印最大的输入行
-main() {
-	int len;
-	int max;
-	char line[MAXLINE];
-	char longest[MAXLINE];
+//练习1-16打印任意长度的输入行的长度
 
-	max = 0;
-	while ((len = getline(line, MAXLINE)) > 0) {
-		if (len > max) {
-			max = len;
-			copy(longest, line);
-		}
-	}
-	if (max > 0) {
-		printf("%s", longest);
-	}
-	return 0;
-}
+//#define MAXLINE 1000 //允许输入的一行的最大长度
+//
+//int getline(char line[], int maxline);
+//void copy(char to[], char from[]);
+//
+////打印最大的输入行
+//main() {
+//	int len;//当前行长度
+//	int max;//目前为止的最长行长度
+//	char line[MAXLINE];//当前行内容
+//	char longest[MAXLINE];//目前为止的最长行内容
+//	max = 0;
+//	while ((len = getline(line, MAXLINE)) > 0) {//当输入行长度大于0时则执行该循环（空行长度为1，同样执行）
+//		printf("%d,%s", len, line);
+//		if (len > max) {//如果当前行长度超过已经输入过的行，则更新最长长度并将longest中记录的内容更新
+//			max = len;
+//			copy(longest, line);
+//		}
+//	}
+//	if (max > 0) {
+//		printf("%s", longest);
+//	}
+//	return 0;
+//}
+//
+//int getline(char s[], int lim) {//返回该行长度，并记录该行内容
+//	int c, i,j=0;//变量j用于记录被复制到字符串s中的字符的个数，i用于记录长度；当输入的字符串长度超过maxline时二者将会产生差别
+//
+//	for (i = 0; (c = getchar()) != EOF && c != '\n'; ++i) {//记录正常的行（无结束符，无换行符；如出现两种情况之一则判断该行结束，进行下一步），i会完整记录该行长度即使长度超过了maxline
+//		if (i < lim - 2) {//实现题目要求“尽可能多的打印文本”（超过maxline的部分舍弃，在其中的部分全部打印）
+//			s[j] = c;
+//			++j; 
+//		}
+//	}
+//	if (c == '\n') {//记录换行符（如该行为空行，即仅有换行符，则数组中仍记录该行内容（即换行符）并记录长度为1
+//		s[j] = c;
+//		++j;
+//		++i;
+//	}
+//	s[j] = '\0';//在数组中标记结束
+//	return i;//返回长度（如果该行长度大于maxline同样能返回真实长度）
+//}
 
-int getline(char s[], int lim) {
-	int c, i;
+//void copy(char to[], char from[]) {//将from[]数组中的内容复制到to[]数组中
+//	int i;
+//
+//	i = 0;
+//	while ((to[i] = from[i]) != '\0') {
+//		++i;
+//	}
+//}
 
-	for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {
-		s[i] = c;
-	}
-	if (c == '\n') {
-		s[i] = c;
-		++i;
-	}
-	s[i] = '\0';
-	return i;
-}
+//练习1-17 打印长度大于80个字符的所有输入行
+//#define MAXLINE 1000
+//#define LONGLINE 80
+//
+//int getline(char line[], int maxline);
+//
+//main() {
+//	int len;
+//	char line[MAXLINE];
+//
+//	while ((len = getline(line, MAXLINE)) > 0) {
+//		if (len > LONGLINE) {
+//			printf("%s", line);
+//		}
+//	}
+//	return 0;
+//}
+//
+//int getline(char s[], int lim) {//返回该行长度，并记录该行内容
+//	int c, i;
+//
+//	for (i = 0; i < lim - 1 && (c = getchar()) != EOF && c != '\n'; ++i) {//记录正常的行（未超长度，无结束符，无换行符；如出现三种情况之一则判断该行结束，进行下一步）
+//		s[i] = c;
+//	}
+//
+//	if (c =='\n') {//记录换行符（如该行为空行，即仅有换行符，则数组中仍记录该行内容（即换行符）并记录长度为1
+//		s[i] = c;
+//		++i;
+//	}
+//
+//	s[i] = '\0';//标记结束
+//	return i;//返回长度
+//}
 
-void copy(char to[], char from[]) {
-	int i;
+//练习1-18 删除每个输入行末尾的空格及制表符，并删除完全是空格的行
+//#define MAXLINE 1000
+//int getline(char line, int maxline);
+//int remove(char s[]);
+//
+//main() {
+//	char line[MAXLINE];
+//
+//	while (getline(line, MAXLINE) > 0) {
+//		if (remove(line) > 0) {//如果某行全为空格，remove会返回-1.此处将被判为false
+//			printf("%s", line);//打印所有修改后的行，如该行全为空格会被跳过
+//		}
+//	}
+//	return 0;
+//}
+//
+//int getline(char s[], int lim) {//返回该行长度，并记录该行内容
+//	int c, i,j=0;
+//	for (i = 0; (c = getchar()) != EOF && c != '\n'; ++i) {//记录正常的行（未超长度，无结束符，无换行符；如出现三种情况之一则判断该行结束，进行下一步）
+//		if(i<lim-2){
+//			s[j] = c;
+//			++j;
+//		}
+//	}
+//	if (c =='\n') {//记录换行符（如该行为空行，即仅有换行符，则数组中仍记录该行内容（即换行符）并记录长度为1
+//		s[j] = c;
+//		++j;
+//		++i;
+//	}
+//	s[j] = '\0';//标记结束
+//	return i;//返回长度
+//}
+//
+//int remove(char s[]) {
+//	int i=0;
+//	//令i指向行尾的换行符
+//	while (s[i] != '\n') {
+//		++i;
+//	}
+//	//令i指向最后一个非空格字符
+//	--i;
+//	while ((s[i] == ' ' || s[i] == '\t')&&i>=0) {
+//		--i;
+//	}
+//	//将换行符和结束符移至最后一个有效字符后
+//	if (i >= 0) {
+//		++i;
+//		s[i] = '\n';
+//		++i;
+//		s[i] = '\0';
+//	}
+//	return i;//返回修改后的行的长度
+//}
 
-	i = 0;
-	while ((to[i] = from[i]) != '\0') {
-		++i;
-	}
-}
+
+//练习1-19 编写函数reverse(s)，将字符串s中的字符顺序颠倒过来。使用该函数编写一个程序，每次颠倒一个输入行中的字符顺序
+//#define MAXLINE 1000
+//
+//main() {
+//	char line[MAXLINE];
+//	void reverse(char line[]);
+//
+//	while (getline(line,MAXLINE) > 0) {	
+//			reverse(line);
+//			printf("%s", line);
+//	}
+//}
+//
+//int getline(char s[], int lim) {
+//	int i, c,j=0;
+//	for (i = 0; (c = getchar()) != EOF && c != '\n';++i) {
+//		if (i < lim - 2) {
+//			s[j] = c;
+//			++j;
+//		}
+//	}
+//	if (c == '\n') {
+//		s[j] =c;
+//		++j;
+//		++i;
+//	}
+//	s[j] = '\0';
+//	return i;
+//}
+//
+//void reverse(char s[]) {
+//	int i, j;
+//	char temp;
+//	i = 0;
+//	while (s[i] != '\0') {
+//		++i;
+//	}
+//	--i;
+//	if (s[i] == '\n') {
+//		--i;
+//	}
+//	j = 0;
+//	while (j < i) {
+//		temp = s[j];
+//		s[j] = s[i];
+//		s[i] = temp;
+//		--i;
+//		++j;
+//	}
+//}
+
+
+
+//1.10外部变量与作用域
+
+//重写1.9中的程序，将line、longest、max声明为外部变量
+//这段程序并没有1.9中的程序好，因为这里将max，line，longest都声明为了外部变量并在函数内直接操作这几个变量，因此函数getline和copy失去了通用性，并且使用外部变量也带来了风险
+//#define MAXLINE 1000
+//
+//int max;
+//char line[MAXLINE];
+//char longest[MAXLINE];
+//
+//int getline(void);
+//void copy(void);
+//
+//main() {
+//	int len;
+//	extern int max;
+//	extern char longest[];
+//
+//	max = 0;
+//	while ((len = getline()) > 0) {
+//		if (len > max) {
+//			max = len;
+//			copy();
+//		}
+//	}
+//	if (max > 0) {
+//		printf("%d,%s",max, longest);
+//	}
+//	return 0;
+//}
+//
+//int getline(void) {
+//	int c, i;
+//	extern char line[];
+//
+//	for (i = 0; i < MAXLINE-1 && (c = getchar()) != EOF && c != '\n';++i) {
+//		line[i] = c;
+//	}
+//	if (c = '\n') {
+//		line[i] = c;
+//		++i;
+//	}
+//	line[i] = '\0';
+//	return i;
+//}
+//
+//void copy(void) {
+//	int i;
+//	extern char line[], longest[];
+//	for (i = 0; (longest[i] = line[i]) != '\0'; ++i) {
+//
+//	}
+//}
+
+
+//练习1-20 编写detab程序，将输入中的制表符替换成适当数目的空格，使空格充满到下一个制表符终止位的地方。
+//假设制表符终止位的位置是固定的，比如每隔n列就会出现一个制表符终止位。n应该作为变量还是符号常量？
+//#define TABINC 8
+//
+//main() {
+//	int c, nb, pos;
+//
+//	nb = 0;//记录需要的空格个数
+//	pos = 1;//记录字符在该行中的位置
+//	while ((c = getchar()) != EOF) {
+//		if (c == '\t') { //如果出现tab
+//			nb = TABINC - (pos - 1) % TABINC;//计算需要的空格个数
+//			while (nb > 0) {
+//				putchar(' ');
+//				++pos;
+//				--nb;
+//			}
+//		}
+//		else if (c == '\n') {//如果出现换行符
+//			putchar(c);//打印换行符
+//			pos = 1;//重置字符所在位置
+//		}
+//		else {//普通字符正常打印
+//			putchar(c);
+//			++pos;
+//		}
+//	}
+//}
+
+
+//练习1-21 编写程序entab，将空格串替换为最少数量的制表符和空格，但要保持单词之间的间隔不变。
+// 假设制表符终止位的位置与练习1-20的detab程序的情况相同。当使用一个制表符或者一个空格都可以到达下一个制表符终止位时，选用哪种替换字符比较好？
+//#define TABINC 8
+//
+//main() {
+//	int c, nb, nt, pos;
+//
+//	nb = 0;
+//	nt = 0;
+//	for (pos = 1; (c = getchar()) != EOF; ++pos) {
+//		if (c == ' ') {
+//			if (pos % TABINC != 0) {
+//				++nb;
+//			}
+//			else {
+//				nb = 0;
+//				++nt;
+//			}
+//		}
+//		else {
+//			for (; nt > 0; --nt) {
+//				putchar('\t');
+//			}
+//			if (c == '\t') {
+//				nb = 0;
+//			}
+//			else {
+//				for (; nb > 0; --nb) {
+//					putchar(' ');
+//				}
+//			}
+//			putchar(c);
+//			if (c == '\n') {
+//				pos = 0;
+//			}
+//			else if (c == '\t') {
+//				pos = pos + (TABINC - (pos - 1) % TABINC) - 1;
+//			}
+//		}
+//	}
+//}
+
+
+//练习1-22 编写程序把较长的输入行折成短一些的两行或多行，折行的位置在输入行的第n列之前的最后一个非空格之后。 
+//要保证程序能够智能地处理输入行很长以及在指定的列前没有空格或制表符的情况。
+
+
+
+//练习1-23 编写程序删除C语言程序中所有的注释语句。要正确处理带引号的字符串与字符常量。在C语言中，注释不允许嵌套。
+
+
+
+//练习1-24 编写程序查找C语言程序中的基本语法错误，如圆括号、方括号、花括号不配对等。要正确处理引号（包括单引号和双引号）、转义字符序列与注释。
