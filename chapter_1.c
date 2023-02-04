@@ -1107,10 +1107,240 @@
 //练习1-22 编写程序把较长的输入行折成短一些的两行或多行，折行的位置在输入行的第n列之前的最后一个非空格之后。 
 //要保证程序能够智能地处理输入行很长以及在指定的列前没有空格或制表符的情况。
 
+//#define MAXCOL 10
+//#define TABINC 8
+//
+//char line[MAXCOL];
+//
+//int exptab(int pos);
+//int findblnk(int pos);
+//int newpos(int pos);
+//void printl(int pos);
+//
+//main() {
+//	int c, pos;
+//
+//	pos = 0;
+//	while ((c = getchar()) != EOF) {
+//		line[pos] = c;
+//		if (c == '\t') {
+//			pos = exptab(pos);
+//		}
+//		else if (c == '\n') {
+//			printl(pos);
+//			pos = 0;
+//		}
+//		else if (++pos >= MAXCOL) {
+//			pos = findblnk(pos);
+//			printl(pos);
+//			pos = newpos(pos);
+//		}
+//	}
+//}
+//
+//void printl(int pos) {
+//	int i;
+//	for (i = 0; i < pos; ++i) {
+//		putchar(line[i]);
+//	}
+//	if (pos > 0) {
+//		putchar('\n');
+//	}
+//}
+//
+//int exptab(int pos) {
+//	line[pos] = ' ';
+//	for (++pos; pos < MAXCOL && pos % TABINC != 0;++pos) {
+//		line[pos]=' ';
+//	}
+//	if (pos < MAXCOL) {
+//		return pos;
+//	}
+//	else {
+//		printl(pos);
+//		return 0;
+//	}
+//}
+//
+//int findblnk(int pos) {
+//	while (pos > 0 && line[pos] != ' ') {
+//		--pos;
+//	}
+//	if (pos == 0) {
+//		return MAXCOL;
+//	}
+//	else {
+//		return pos + 1;
+//	}
+//}
+//
+//int newpos(int pos) {
+//	int i, j;
+//
+//	if (pos <= 0 || pos >= MAXCOL) {
+//		return 0;
+//	}
+//	else {
+//		i = 0;
+//		for (j = pos; j < MAXCOL; ++j) {
+//			line[i] = line[j];
+//			++i;
+//		}
+//		return i;
+//	}
+//}
 
 
 //练习1-23 编写程序删除C语言程序中所有的注释语句。要正确处理带引号的字符串与字符常量。在C语言中，注释不允许嵌套。
-
+//void rcomment(int c);
+//void in_comment(void);
+//void echo_quote(int c);
+//
+//main() {
+//	int c, d;
+//	while ((c = getchar()) != EOF) {
+//		rcomment(c);
+//	}
+//	return 0;
+//}
+//
+//void rcomment(int c) {
+//	int d;
+//
+//	if (c == '/') {
+//		if ((d = getchar()) == '*') {
+//			in_comment();
+//		}
+//		else if (d == '/') {
+//			putchar(c);
+//			rcomment(d);
+//		}
+//		else {
+//			putchar(c);
+//			putchar(d);
+//		}
+//	}
+//	else if (c == '\'' || c == '"') {
+//		echo_quote(c);
+//	}
+//	else {
+//		putchar(c);
+//	}
+//}
+//
+//void in_comment(void) {
+//	int c, d;
+//	c = getchar();
+//	d = getchar();
+//	while (c != '*' || d != '/') {
+//		c = d;
+//		d = getchar();
+//	}
+//}
+//
+//void echo_quote(int c) {
+//	int d;
+//
+//	putchar(c);
+//	while ((d = getchar()) != c) {
+//		putchar(d);
+//		if (d == '\\') {
+//			putchar(getchar());
+//		}
+//	}
+//	putchar(d);
+//}
 
 
 //练习1-24 编写程序查找C语言程序中的基本语法错误，如圆括号、方括号、花括号不配对等。要正确处理引号（包括单引号和双引号）、转义字符序列与注释。
+
+//int brace, brack, paren;
+//
+//void in_quote(int c);
+//void in_comment(void);
+//void search(int c);
+//
+//main() {
+//	int c;
+//	extern int brace, brack, paren;
+//	while ((c = getchar()) != EOF) {
+//		if (c == '/') {
+//			if ((c = getchar()) == '*') {
+//				in_comment();
+//			}
+//			else {
+//				search(c);
+//			}
+//		}
+//		else if (c == '\'' || c == '"') {
+//			in_quote(c);
+//		}
+//		else {
+//			search(c);
+//		}
+//
+//		if (brace < 0) {
+//			printf("Unbalanced brackets\n");
+//			brace = 0;
+//		}
+//		else if (brack < 0) {
+//			printf("Unbalanced brackets\n");
+//			brack = 0;
+//		}
+//		else if (paren < 0) {
+//			printf("Unbalanced parentheses\n");
+//			paren = 0;
+//			}
+//	}
+//	if (brace > 0) {
+//		printf("Unbalanced braces\n");
+//	}
+//	if (brack > 0) {
+//		printf("Unbalanced brackers\n");
+//	}
+//	if (paren > 0) {
+//		printf("Unbalanced parentheses\n");
+//	}
+//}
+//
+//void search(int c) {
+//	extern int brace, brack, paren;
+//
+//	if (c == '{') {
+//		++brace;
+//	}
+//	else if (c == '}') {
+//		--brace;
+//	}
+//	else if (c == '[') {
+//		++brack;
+//	}
+//	else if (c == ']') {
+//		--brack;
+//	}
+//	else if (c == '(') {
+//		++paren;
+//	}
+//	else if (c == ')') {
+//		--paren;
+//	}
+//}
+//
+//void in_comment(void) {
+//	int c, d;
+//	c = getchar();
+//	d = getchar();
+//	while (c != '*' || d != '/') {
+//		c = d;
+//		d = getchar();
+//	}
+//}
+//
+//void in_quote(int c) {
+//	int d;
+//	while ((d = getchar()) != c) {
+//		if (d == '\\') {
+//			getchar();
+//		}
+//	}
+//}
